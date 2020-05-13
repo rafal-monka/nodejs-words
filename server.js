@@ -7,7 +7,7 @@ const bodyParser = require("body-parser");
 const storage = require("./app/storage.js");
 
 const db = require("./app/models");
-db.sequelize.sync(  { force: true }  ); //!!! In development, you may need to drop existing tables and re-sync database.
+db.sequelize.sync(  { force: false }  ); //!!! In development, you may need to drop existing tables and re-sync database.
 storage.test();
 
 const app = express();

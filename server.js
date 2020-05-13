@@ -1,0 +1,43 @@
+/*
+ * Words Node app
+ */
+require('dotenv').config();
+const express = require("express");
+const bodyParser = require("body-parser");
+const storage = require("./app/storage.js");
+
+const db = require("./app/models");
+db.sequelize.sync(  { force: true }  ); //!!! In development, you may need to drop existing tables and re-sync database.
+storage.test();
+
+const app = express();
+
+// parse requests of content-type - application/json
+app.use(bodyParser.json());
+// parse requests of content-type - application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }));
+
+require("./app/routes/word-routes")(app);
+
+const PORT = process.env.PORT;
+app.listen(PORT, () => {
+  console.log(`Server Node Words is running on port ${PORT}.`);
+});
+
+// app.get("/", (req, res) => {
+//     let text = req.query.text;
+//     // translator.translate(text)
+//     //     .then(translation => {
+//     //         //console.log("get", translation.data);
+//     //         let result = translator.parse(translation.data);
+//     //         //console.log("parse", result);
+//     //         res.json({ message: result });
+//     //     })
+//     //     .catch(error => {
+//     //         //console.log('ERROR-404');
+//     //         console.log(error);
+//     //         res.json({ message: "ERROR-404" });
+//     //     });;        
+// });
+
+// translator.translate("yam"); 

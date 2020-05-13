@@ -33,11 +33,14 @@ exports.create = async (req, res) => {
 
     // Create a word
     const entry = {
-        phrase: req.body.phrase,
-        sentence: req.body.sentence,
+             phrase: req.body.phrase,
+                hws: req.body.hws,
+         speechpart: req.body.speechpart,
+           sentence: req.body.sentence,
         translation: req.body.translation,
-        tags: "",
-        counter: 0
+           examples: req.body.examples,
+               tags: "",
+            counter: 0
     };
 
     //Save catalog item in the database

@@ -2,24 +2,36 @@
 module.exports = (sequelize, Sequelize) => {
     const Word = sequelize.define("word", {      
       phrase: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(255),
         allowNull: false,
         unique: false
-      },      
+      },   
+      hws: {
+        type: Sequelize.TEXT,
+        allowNull: true
+      },
+      speechpart: {
+        type: Sequelize.STRING(255),
+        allowNull: true
+      },          
       sentence: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: true
       },
       translation: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
+        allowNull: true
+      },
+      examples: {
+        type: Sequelize.TEXT,
         allowNull: true
       },
       tags: {
-        type: Sequelize.STRING(100),
+        type: Sequelize.STRING(255),
         allowNull: true
       },
       counter: {
-        type: Sequelize.DECIMAL(10, 2),
+        type: Sequelize.DECIMAL,
         allowNull: true
       },     
       createdAt: {

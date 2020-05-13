@@ -31,6 +31,15 @@ exports.parseSimple = (html) => {
     return translations;
 }
 
+String.prototype.replaceHtmlEntites = function() {
+    var s = this.trim().replace(/<[^>]*>?/gm, '').replace(/\s\s+/g, ' ');
+    var translate_re = /&(nbsp|amp|quot|lt|gt|apos);/g;
+    var translate = {"nbsp": " ","amp" : "&","quot": "\"","lt"  : "<","gt"  : ">", "apos": "\""};
+    return ( s.replace(translate_re, function(match, entity) {
+      return translate[entity];
+    }) );
+};
+
 exports.parse = (html) => {    
     var parser = new DomParser();
     var dom = parser.parseFromString(html);
@@ -40,17 +49,18 @@ exports.parse = (html) => {
         var dictionaryEntities = dom.getElementsByClassName('diki-results-left-column')[0].getElementsByClassName('dictionaryEntity');	
         //console.log(dictionaryEntities);				
         for (var de = 0; de < dictionaryEntities.length; de++) {	
-            //console.log(dictionaryEntities[de]);
+//console.log(de);
             
             var partOfSpeech = dictionaryEntities[de].getElementsByClassName('partOfSpeech');
-            //console.log("partOfSpeech", partOfSpeech[0].innerHTML.trim());
             var obj = {};
-            obj.part = partOfSpeech[0].innerHTML.trim().replace('&nbsp;',' ');
+//console.log('partOfSpeech', partOfSpeech.lenght);            
+            obj.part = (partOfSpeech.length > 0 ? partOfSpeech[0].innerHTML.replaceHtmlEntites() : '');
             
             var hws = dictionaryEntities[de].getElementsByClassName('hws')[0].getElementsByClassName('hw');
             obj.hws = [];
             for (var h = 0; h < hws.length; h++) {
-                let txt = hws[h].innerHTML.trim().replace(/<[^>]*>?/gm, '').replace(/\s\s+/g, ' ');
+//console.log("h", h, hws[h].toString());
+                let txt = hws[h].innerHTML.replaceHtmlEntites();
                 obj.hws.push(txt);
             }
             
@@ -60,7 +70,8 @@ exports.parse = (html) => {
                 obj.meanings = [];
                 var plainLinks = foreignToNativeMeanings[fn].getElementsByClassName('plainLink');						
                 for (var pl = 0; pl < plainLinks.length; pl++) {
-                    let txt = plainLinks[pl].innerHTML.trim().replace(/<[^>]*>?/gm, '').replace(/\s\s+/g, ' ');
+//console.log("pl", pl, plainLinks[pl].toString());
+                    let txt = plainLinks[pl].innerHTML.replaceHtmlEntites();
                     //console.log(pl, txt);
                     obj.meanings.push(txt);
                 }
@@ -68,7 +79,8 @@ exports.parse = (html) => {
                 obj.examples = [];
                 var exampleSentences = foreignToNativeMeanings[fn].getElementsByClassName('exampleSentence');
                 for (var es = 0; es < exampleSentences.length; es++) {
-                    let txt = exampleSentences[es].innerHTML.trim().replace(/<[^>]*>?/gm, '').replace(/\s\s+/g, ' ')							
+//console.log("es", es, exampleSentences[es].toString());
+                    let txt = exampleSentences[es].innerHTML.replaceHtmlEntites();							
                     //console.log(es, txt);
                     obj.examples.push(txt);
                 }

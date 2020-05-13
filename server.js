@@ -17,9 +17,13 @@ app.use(bodyParser.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.get("/", (req, res) => {
+    res.json({ message: "Welcome to Words application." });
+});
+
 require("./app/routes/word-routes")(app);
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server Node Words is running on port ${PORT}.`);
 });

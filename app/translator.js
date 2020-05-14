@@ -49,7 +49,7 @@ exports.parse = (html) => {
         var dictionaryEntities = dom.getElementsByClassName('diki-results-left-column')[0].getElementsByClassName('dictionaryEntity');	
         //console.log(dictionaryEntities);				
         for (var de = 0; de < dictionaryEntities.length; de++) {	
-                        
+
             var obj = {};
             obj.hws = [];
             obj.meanings = [];
@@ -71,9 +71,9 @@ exports.parse = (html) => {
             for (var fn = 0; fn < foreignToNativeMeanings.length; fn++) {     
 
                 //translations
-                var plainLinks = foreignToNativeMeanings[fn].getElementsByClassName('plainLink');						
-                for (var pl = 0; pl < plainLinks.length; pl++) {
-                    let txt = plainLinks[pl].innerHTML.replaceHtmlEntites();
+                var hw = foreignToNativeMeanings[fn].getElementsByClassName('hw');						
+                for (var pl = 0; pl < hw.length; pl++) {
+                    let txt = hw[pl].innerHTML.replaceHtmlEntites();
                     obj.meanings.push(txt);
                 }
                 

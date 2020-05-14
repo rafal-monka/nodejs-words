@@ -49,39 +49,38 @@ exports.parse = (html) => {
         var dictionaryEntities = dom.getElementsByClassName('diki-results-left-column')[0].getElementsByClassName('dictionaryEntity');	
         //console.log(dictionaryEntities);				
         for (var de = 0; de < dictionaryEntities.length; de++) {	
-//console.log(de);
-            
-            var partOfSpeech = dictionaryEntities[de].getElementsByClassName('partOfSpeech');
+                        
             var obj = {};
-//console.log('partOfSpeech', partOfSpeech.lenght);            
+            obj.hws = [];
+            obj.meanings = [];
+            obj.examples = []; 
+               
+            //part of speech
+            var partOfSpeech = dictionaryEntities[de].getElementsByClassName('partOfSpeech');
             obj.part = (partOfSpeech.length > 0 ? partOfSpeech[0].innerHTML.replaceHtmlEntites() : '');
             
-            var hws = dictionaryEntities[de].getElementsByClassName('hws')[0].getElementsByClassName('hw');
-            obj.hws = [];
+            //english
+            var hws = dictionaryEntities[de].getElementsByClassName('hws')[0].getElementsByClassName('hw');           
             for (var h = 0; h < hws.length; h++) {
-//console.log("h", h, hws[h].toString());
                 let txt = hws[h].innerHTML.replaceHtmlEntites();
                 obj.hws.push(txt);
             }
-            
+
+            //meanings
             var foreignToNativeMeanings = dictionaryEntities[de].getElementsByClassName('foreignToNativeMeanings');
-            for (var fn = 0; fn < foreignToNativeMeanings.length; fn++) {
-                
-                obj.meanings = [];
+            for (var fn = 0; fn < foreignToNativeMeanings.length; fn++) {     
+
+                //translations
                 var plainLinks = foreignToNativeMeanings[fn].getElementsByClassName('plainLink');						
                 for (var pl = 0; pl < plainLinks.length; pl++) {
-//console.log("pl", pl, plainLinks[pl].toString());
                     let txt = plainLinks[pl].innerHTML.replaceHtmlEntites();
-                    //console.log(pl, txt);
                     obj.meanings.push(txt);
                 }
                 
-                obj.examples = [];
+                //sample sentences
                 var exampleSentences = foreignToNativeMeanings[fn].getElementsByClassName('exampleSentence');
                 for (var es = 0; es < exampleSentences.length; es++) {
-//console.log("es", es, exampleSentences[es].toString());
                     let txt = exampleSentences[es].innerHTML.replaceHtmlEntites();							
-                    //console.log(es, txt);
                     obj.examples.push(txt);
                 }
             }

@@ -1,6 +1,6 @@
 const db = require("../models");
 const translator = require("../translator.js");
-const word = db.words;
+const Words = db.words;
 const Op = db.Sequelize.Op;
 
 exports.translate = async (req, res) => {
@@ -32,7 +32,7 @@ exports.create = async (req, res) => {
     }
 
     // Create a word
-    const entry = {
+    const word = {
              phrase: req.body.phrase,
                 hws: req.body.hws,
          speechpart: req.body.speechpart,
@@ -44,7 +44,7 @@ exports.create = async (req, res) => {
     };
 
     //Save catalog item in the database
-    word.create(entry)
+    Words.create(word)
         .then(data => {
             res.send(data);
         })
@@ -56,3 +56,21 @@ exports.create = async (req, res) => {
         });  
 
 };
+
+//get all records
+exports.findAll = async (req, res) => {
+    const phrase = req.query.phrase;
+    var condition = phrase ? { phrase: { [Op.like]: `%${phrase}%` } } : null;
+//console.log("findAll");  
+    Words.findAll({ where: condition })
+      .then(data => {
+        res.send(data);
+      })
+      .catch(err => {
+        res.status(500).send({
+          message:
+            err.message || "Error occurred while retrieving words."
+        });
+      }); 
+}
+

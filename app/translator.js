@@ -1,11 +1,12 @@
 var axios = require('axios');
 var DomParser = require('dom-parser');
+const DIKI_URL = "https://www.diki.pl";
 
 exports.getTranslation = (phrase) => {
-    const CONST_URL = "https://www.diki.pl/slownik-angielskiego?q=";
+    const DICT_EN_URL = DIKI_URL+"/slownik-angielskiego";
     try {
         return axios({
-            url: CONST_URL,
+            url: DICT_EN_URL,
             methog: 'get',
             params: {
                 q: phrase
@@ -46,7 +47,9 @@ exports.parse = (html) => {
     var translations = [];
 
     try {
-        var dictionaryEntities = dom.getElementsByClassName('diki-results-left-column')[0].getElementsByClassName('dictionaryEntity');	
+        var drlc = dom.getElementsByClassName('diki-results-left-column');
+        if (drlc.length === 0) return [];
+        var dictionaryEntities = drlc[0].getElementsByClassName('dictionaryEntity');	
         //console.log(dictionaryEntities);				
         for (var de = 0; de < dictionaryEntities.length; de++) {	
 
@@ -54,6 +57,7 @@ exports.parse = (html) => {
             obj.hws = [];
             obj.meanings = [];
             obj.examples = []; 
+            obj.audiourls = [];
                
             //part of speech
             var partOfSpeech = dictionaryEntities[de].getElementsByClassName('partOfSpeech');
@@ -65,6 +69,14 @@ exports.parse = (html) => {
                 let txt = hws[h].innerHTML.replaceHtmlEntites();
                 obj.hws.push(txt);
             }
+
+            //audio
+            var audios = dictionaryEntities[de].getElementsByClassName('hws')[0].getElementsByClassName('audioIcon');
+            audios.forEach(audio => {
+                let audiourl = audio.getAttribute('data-audio-url');
+                console.debug("audiourl", audiourl);
+                obj.audiourls.push(DIKI_URL+audiourl);
+            });
 
             //meanings
             var foreignToNativeMeanings = dictionaryEntities[de].getElementsByClassName('foreignToNativeMeanings');

@@ -3,6 +3,9 @@ module.exports = app => {
   
     var router = require("express").Router();
     
+    // Get all words
+    router.get("/", words.findAll);
+
     // Translate
     router.get("/translate/", words.translate);
 

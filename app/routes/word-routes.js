@@ -6,6 +6,9 @@ module.exports = app => {
     // Get all words
     router.get("/", words.findAll);
 
+    // Get all words
+    router.get("/page/", words.getAll);
+
     // Translate
     router.get("/translate/", words.translate);
 

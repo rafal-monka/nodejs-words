@@ -1,5 +1,7 @@
+const pagination = require("paginate-info");
 const db = require("../models");
 const translator = require("../translator.js");
+
 const Words = db.words;
 const Op = db.Sequelize.Op;
 
@@ -73,4 +75,23 @@ exports.findAll = async (req, res) => {
         });
       }); 
 }
+
+//https://dev.to/mcdavid95/how-to-paginate-your-nodejs-apis-1ag3
+exports.getAll = async (req, res) => {
+    // try {
+      const {
+        query: {
+          currentPage, pageSize
+        }
+      } = req;
+      console.log(req.query);
+      const { limit, offset } = pagination.calculateLimitAndOffset(currentPage, pageSize);
+      const { rows, count } = await Words.findAndCountAll({ limit, offset});
+      console.log(currentPage, count, pageSize);
+      const meta = pagination.paginate(currentPage, count, rows, pageSize);
+      return res.status(200).send( { message: 'success', rows: rows, meta: meta } );
+    // } catch (error) {
+    //   return res.status(500).send( {message: 'error', text: error} );
+    // }
+  };
 

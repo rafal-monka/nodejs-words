@@ -152,7 +152,7 @@ exports.htmlone = async (req, res) => {
 
 exports.htmlpage = async (req, res) => {
   const CONST_URL = process.env.API_URL;
-  const CONST_PAGE_SIZE = 10;
+  const CONST_PAGE_SIZE = process.env.API_PAGE_SIZE;
   function navStr(page) {
     return "/api/words/htmlpage/"+page;
   }

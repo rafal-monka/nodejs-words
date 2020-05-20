@@ -97,7 +97,7 @@ exports.getAll = async (req, res) => {
     // }
   };
 
-// Find a single List with an id
+// Find a single Word with an id
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
@@ -107,7 +107,7 @@ exports.findOne = (req, res) => {
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error retrieving List with id=" + id
+        message: "Error retrieving Word with id=" + id
       });
     });  
 };
@@ -124,6 +124,7 @@ exports.htmlone = async (req, res) => {
         // console.log(response.data);
         let data = 
           "<html><body><meta charset=\"utf-8\" /><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />"
+          +"<button onclick=\"history.back()\">Back</button>"
           +"<h1>"+response.data.phrase+"</h1>"
           +"<h2>"+response.data.sentence+"</h2>"
           +"<pre>"
@@ -174,9 +175,11 @@ exports.htmlpage = async (req, res) => {
         })
 
         let data = 
-          "<html><body><meta charset=\"utf-8\" /><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />"
-          +(req.params.currentpage>1 ? "<a href=\""+navStr(+req.params.currentpage-1)+"\">&lt;</a>&nbsp;" : "")
-          +"<a href=\""+navStr(+req.params.currentpage+1)+"\">&gt;</a>"
+          "<html><meta charset=\"utf-8\" /><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />"
+          +"<body>"
+          +"<h4>"+CONST_URL+"</h4>"
+          +(req.params.currentpage>1 ?"<button onclick=\"window.location='"+navStr(+req.params.currentpage-1)+"'\">&lt;</button>&nbsp;&nbsp;&nbsp;": "")
+          +"<button onclick=\"window.location='"+navStr(+req.params.currentpage+1)+"'\">&gt;</button>"
           +"<ul>"+str+"</ul>"
           +"<pre>"
           +JSON.stringify(response.data,null,2)

@@ -4,6 +4,7 @@
 require('dotenv').config();
 const express = require("express");
 const bodyParser = require("body-parser");
+const path = require('path');
 const storage = require("./app/storage.js");
 
 const db = require("./app/models");
@@ -18,9 +19,13 @@ app.use(bodyParser.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get("/", (req, res) => {
+app.get("/home", (req, res) => {
     res.json({ message: "Welcome to Words application." });
 });
+
+app.use(
+  express.static(path.join(__dirname, 'public'))
+);
 
 require("./app/routes/word-routes")(app);
 

@@ -18,6 +18,7 @@ exports.getTranslation = (phrase) => {
     }
 }
 
+
 exports.parseSimple = (html) => {    
     var parser = new DomParser();
     var dom = parser.parseFromString(html);

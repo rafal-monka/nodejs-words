@@ -112,95 +112,95 @@ exports.findOne = (req, res) => {
     });  
 };
 
-exports.htmlone = async (req, res) => {
-  const CONST_URL = process.env.API_URL;
-  try {
-      console.log("htmlone", req.params.id);
-      axios({
-          url: CONST_URL+"/find/"+req.params.id,
-          methog: 'get'
-      }).then(response => {
-        console.log("response");
-        // console.log(response.data);
-        let data = 
-          "<html><body><meta charset=\"utf-8\" /><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />"
-          +"<button onclick=\"history.back()\">Back</button>"
-          +"<h1>"+response.data.phrase+"</h1>"
-          +"<h2>"+response.data.sentence+"</h2>"
-          +"<pre>"
-          +JSON.stringify(response.data,null,2)
-          +"<pre></body></html>"; 
-        res.writeHead(200, {
-            'Content-Type': 'text/html'
-        });
-        res.write(data);
-        res.end();
-      }).catch(error => {
-          console.error('#1', error);  
-          res.status(500).send({
-              message: error
-            });
-      })
+// exports.htmlone = async (req, res) => {
+//   const CONST_URL = process.env.API_URL;
+//   try {
+//       console.log("htmlone", req.params.id);
+//       axios({
+//           url: CONST_URL+"/find/"+req.params.id,
+//           methog: 'get'
+//       }).then(response => {
+//         console.log("response");
+//         // console.log(response.data);
+//         let data = 
+//           "<html><body><meta charset=\"utf-8\" /><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />"
+//           +"<button onclick=\"history.back()\">Back</button>"
+//           +"<h1>"+response.data.phrase+"</h1>"
+//           +"<h2>"+response.data.sentence+"</h2>"
+//           +"<pre>"
+//           +JSON.stringify(response.data,null,2)
+//           +"<pre></body></html>"; 
+//         res.writeHead(200, {
+//             'Content-Type': 'text/html'
+//         });
+//         res.write(data);
+//         res.end();
+//       }).catch(error => {
+//           console.error('#1', error);  
+//           res.status(500).send({
+//               message: error
+//             });
+//       })
 
-  } catch (error) {
-      console.error('#2', error);
-      res.status(500).send({
-        message: error
-      });
-  }
-}
+//   } catch (error) {
+//       console.error('#2', error);
+//       res.status(500).send({
+//         message: error
+//       });
+//   }
+// }
 
 
-exports.htmlpage = async (req, res) => {
-  const CONST_URL = process.env.API_URL;
-  const CONST_PAGE_SIZE = process.env.API_PAGE_SIZE;
-  function navStr(page) {
-    return "/api/words/htmlpage/"+page;
-  }
-  try {
-      console.log("htmlpage", req.params.currentpage);
-      axios({
-          url: CONST_URL+"/page/",
-          methog: 'get',
-          params: {
-            pageSize: CONST_PAGE_SIZE,
-            currentPage: req.params.currentpage
-          }
-      }).then(response => {
-        console.log("response");
-        // console.log(response.data);
-        let str = "";
-        response.data.rows.forEach(element => {
-            str += "<li><a href=\"/api/words/htmlone/"+element.id+"\">"+element.phrase+"</a></li>";
-        })
+// exports.htmlpage = async (req, res) => {
+//   const CONST_URL = process.env.API_URL;
+//   const CONST_PAGE_SIZE = process.env.API_PAGE_SIZE;
+//   function navStr(page) {
+//     return "/api/words/htmlpage/"+page;
+//   }
+//   try {
+//       console.log("htmlpage", req.params.currentpage);
+//       axios({
+//           url: CONST_URL+"/page/",
+//           methog: 'get',
+//           params: {
+//             pageSize: CONST_PAGE_SIZE,
+//             currentPage: req.params.currentpage
+//           }
+//       }).then(response => {
+//         console.log("response");
+//         // console.log(response.data);
+//         let str = "";
+//         response.data.rows.forEach(element => {
+//             str += "<li><a href=\"/api/words/htmlone/"+element.id+"\">"+element.phrase+"</a></li>";
+//         })
 
-        let data = 
-          "<html><meta charset=\"utf-8\" /><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />"
-          +"<body>"
-          +"<h4>"+CONST_URL+"</h4>"
-          +(req.params.currentpage>1 ?"<button onclick=\"window.location='"+navStr(+req.params.currentpage-1)+"'\">&lt;</button>&nbsp;&nbsp;&nbsp;": "")
-          +"<button onclick=\"window.location='"+navStr(+req.params.currentpage+1)+"'\">&gt;</button>"
-          +"<ul>"+str+"</ul>"
-          +"<pre>"
-          +JSON.stringify(response.data,null,2)
-          +"<pre></body></html>"; 
-        res.writeHead(200, {
-            'Content-Type': 'text/html'
-        });
-        res.write(data);
-        res.end();
-      }).catch(error => {
-          console.error('#1', error);  
-          res.status(500).send({
-              message: error
-            });
-      })
+//         let data = 
+//           "<html><meta charset=\"utf-8\" /><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />"
+//           +"<body>"
+//           +"<h4>"+CONST_URL+"</h4>"
+//           +(req.params.currentpage>1 ?"<button onclick=\"window.location='"+navStr(+req.params.currentpage-1)+"'\">&lt;</button>&nbsp;&nbsp;&nbsp;": "")
+//           +"<button onclick=\"window.location='"+navStr(+req.params.currentpage+1)+"'\">&gt;</button>"
+//           +"<ul>"+str+"</ul>"
+//           +"<pre>"
+//           +JSON.stringify(response.data,null,2)
+//           +"<pre></body></html>"; 
+//         res.writeHead(200, {
+//             'Content-Type': 'text/html'
+//         });
+//         res.write(data);
+//         res.end();
+//       }).catch(error => {
+//           console.error('#1', error);  
+//           res.status(500).send({
+//               message: error
+//             });
+//       })
 
-  } catch (error) {
-      console.error('#2', error);
-      res.status(500).send({
-        message: error
-      });
-  }
+//   } catch (error) {
+//       console.error('#2', error);
+//       res.status(500).send({
+//         message: error
+//       });
+//   }
 
-}
+// }

@@ -112,6 +112,57 @@ exports.findOne = (req, res) => {
     });  
 };
 
+// Update a Word by the id in the request
+exports.update = (req, res) => {
+  const id = req.params.id;
+console.log('update');
+  Words.update(req.body, {
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "Word was updated successfully."
+        });
+      } else {
+        res.send({
+          message: `Cannot update Word with id=${id}. Maybe Word was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating Word with id=" + id
+      });
+    });  
+};
+
+// Delete a Word with the specified id in the request
+exports.delete = (req, res) => {
+  //console.log("delete (Item)/"+req.params.id);
+  const id = req.params.id;
+
+  Words.destroy({
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "Word was deleted successfully!"
+        });
+      } else {
+        res.send({
+          message: `Cannot delete Word with id=${id}. Maybe Word was not found!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Could not delete Word with id=" + id
+      });
+    });  
+};
+
 // exports.htmlone = async (req, res) => {
 //   const CONST_URL = process.env.API_URL;
 //   try {

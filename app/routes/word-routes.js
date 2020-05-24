@@ -7,8 +7,14 @@ module.exports = app => {
     // Get all words
     router.get("/", words.findAll);
 
-    // Get all words
+    // Get a word
     router.get("/find/:id", words.findOne);
+
+    // Get a word
+    router.delete("/delete/:id", words.delete);
+
+    // Tag a word with id
+    router.put("/:id", words.update);
 
     // Translate
     router.get("/translate/", words.translate);
@@ -20,7 +26,7 @@ module.exports = app => {
     router.post("/create/", words.create);
 
     // Get all words
-    router.get("/page/", words.getAll);
+    router.get("/page/", words.getAll); 
 
     // // One word (HTML)
     // router.get("/htmlone/:id", words.htmlone);

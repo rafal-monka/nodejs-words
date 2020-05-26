@@ -49,6 +49,10 @@ app.listen(PORT, () => {
   console.log(`Server Node Words is running on port ${PORT}.`);
 });
 
+console.log('process.env.DB_HOST', process.env.DB_HOST, process.env.DB_PORT);
+console.log('process.env.DB_DATABASE', process.env.DB_DATABASE);
+console.log('process.env.DB_USER', process.env.DB_USER);
+
 // app.get("/", (req, res) => {
 //     let text = req.query.text;
 //     // translator.translate(text)

@@ -13,15 +13,19 @@ module.exports.remindWord = async () => {
     let word = await randomWord()
     console.log('wordR', word)
     
-    let notif = {
-        title: word.phrase,
-        body:  word.sentence + '\n' +word.translation,
-        color: getTagColor(word.tags)
-    }        
+    try {
+        let notif = {
+            title: word.phrase,
+            body:  word.sentence + '\n' +word.translation,
+            color: getTagColor(word.tags)
+        }        
 
-    devices.forEach(device => {
-        firebase.sendMessage(device.token, notif)    
-    });
+        devices.forEach(device => {
+            firebase.sendMessage(device.token, notif)    
+        });
+    } catch (e) {
+        console.log(e)
+    }
        
 }    
 

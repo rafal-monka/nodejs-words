@@ -12,7 +12,7 @@ var reminder = require('./app/reminder');
 
 const db = require("./app/models");
 //@@@development = true; production = false
-db.sequelize.sync(  { force: true }  ); //!!! In development, you may need to drop existing tables and re-sync database.
+db.sequelize.sync(  { force: false }  ); //!!! In development, you may need to drop existing tables and re-sync database.
 storage.test();
 
 const whitelist = [ "http://localhost:4200" ];
@@ -56,15 +56,18 @@ console.log('process.env.DB_USER', process.env.DB_USER);
 
 
 //reminder
-//reminder.remindWord()
-console.log('INIT')
-let token = 'cHifhr5lRbq3bk4Q4f61Yx:APA91bFyJBAKUWDXLsvRiUV4UDdaH-fZVNfZgdiX1AUtbGzC4FBUCAOCykWRglMNCCp3tUwESBsRA0OTp6k0HRnI3JnE8Wc40UNJbXXsJHGs16Lcah-Anv65AGcNaBDRFF30D_nmubSs';
-let notif = {
-  title: 'TEST-01',
-  body: 'TEST-01',
-  color: '#ff0000'
-}
-reminder.sendMessage(token, notif);
+reminder.remindWord()
+
+//TEST FireBase manually
+// console.log('INIT')
+// let token = 'cHifhr5lRbq3bk4Q4f61Yx:APA91bFyJBAKUWDXLsvRiUV4UDdaH-fZVNfZgdiX1AUtbGzC4FBUCAOCykWRglMNCCp3tUwESBsRA0OTp6k0HRnI3JnE8Wc40UNJbXXsJHGs16Lcah-Anv65AGcNaBDRFF30D_nmubSs';
+// let notif = {
+//   title: 'TEST-01',
+//   body: 'TEST-01',
+//   color: '#ff0000'
+// }
+// reminder.sendMessage(token, notif);
+
 
 // //1
 // let userId = '100357139298762566358'; 

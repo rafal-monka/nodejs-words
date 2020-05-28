@@ -7,6 +7,7 @@ request = require("request");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const path = require('path');
+const schedule = require('node-schedule');
 const storage = require("./app/storage.js");
 var reminder = require('./app/reminder');
 
@@ -70,7 +71,13 @@ console.log('process.env.DB_USER', process.env.DB_USER);
 
 
 //reminder
-reminder.remindWord()
+// var rule = new schedule.RecurrenceRule();
+cronParams = "0 */15 4-20 * * *";
+var j = schedule.scheduleJob(cronParams, function(){ 
+  // console.log(new Date())
+  reminder.remindWord()
+});
+
 
 
 

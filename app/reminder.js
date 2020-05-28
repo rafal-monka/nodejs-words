@@ -5,7 +5,7 @@ module.exports.sendMessage = (token, notif) => {
     firebase.sendMessage(token, notif)
 }
 module.exports.remindWord = async () => {
-    console.log('reminder')
+    console.log('reminder', new Date())
 
     let devices = await getDevices()
     console.log('devices', devices)

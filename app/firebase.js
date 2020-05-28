@@ -27,20 +27,23 @@ admin.initializeApp({
 exports.sendMessage = (token, notif) => {
 console.log('sendMessage - token', token);
     const message = {
-        notification: { //info: https://firebase.google.com/docs/reference/fcm/rest/v1/projects.messages#AndroidNotification
-            title: notif.title,
-            body: notif.body,    
-        },
-        android:{
-            notification: { 
-                color: notif.color, 
-                click_action: "OPEN_ACTIVITY_1"
-            },
-            priority:"normal"    
-        },
+        // notification: { //info: https://firebase.google.com/docs/reference/fcm/rest/v1/projects.messages#AndroidNotification
+        //     title: notif.title,
+        //     body: notif.body,    
+        // },
+        // android:{
+        //     notification: { 
+        //         channel_id: "channel_id_1", 
+        //         color: notif.color, 
+        //         click_action: "OPEN_ACTIVITY_1"
+        //     },
+        //     priority:"normal"    
+        // },
         data: {
-            score: 'Score Test###', 
-            time: 'Time Test###'
+            title: notif.title,
+            body: notif.body, 
+            color: notif.color,
+            id: notif.id            
         },
         token: token
     }

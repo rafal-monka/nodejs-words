@@ -39,7 +39,8 @@ app.get("/test", (req, res) => {
   let notif = {
     title: 'TEST-01',
     body: 'TEST-01',
-    color: '#ff0000'
+    color: '#ff0000',
+    id: ''+0
   }
   reminder.sendMessage(token, notif);
   res.json({ message: "TEST DONE" });
@@ -71,11 +72,17 @@ console.log('process.env.DB_USER', process.env.DB_USER);
 
 
 //reminder
+// reminder.remindWord();
+// reminder.randomWord().then(res => {
+//   console.log('word', res)
+// })
+
+
 // var rule = new schedule.RecurrenceRule();
-reminder.remindWord();
+reminder.remindWord(); 
+
 cronParams = "0 */15 4-20 * * *";
 var j = schedule.scheduleJob(cronParams, function(){ 
-  // console.log(new Date())
   reminder.remindWord()
 });
 

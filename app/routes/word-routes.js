@@ -7,6 +7,9 @@ module.exports = app => {
     // Get all words
     router.get("/", words.findAll);
 
+    // Get all words to remind
+    router.get("/findalltoremind", words.findAllToRemind);
+
     // Get a word
     router.get("/find/:id", words.findOne);
 

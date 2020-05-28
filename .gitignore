@@ -3,6 +3,8 @@ node_modules/
 # !public/node_modules/
 JS/
 
+app/config/memory-248a2-e9d79b4455b3.json
+
 public/my-app
 
 todo.txt

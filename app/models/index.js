@@ -26,5 +26,6 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.words = require("./word-model.js")(sequelize, Sequelize);
+db.tokens = require("./firebase-tokens-model.js")(sequelize, Sequelize);
 
 module.exports = db;

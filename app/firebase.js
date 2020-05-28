@@ -2,7 +2,7 @@ require('dotenv').config();
 var admin = require("firebase-admin");
 
 //var serviceAccount = require("./config/memory-248a2-e9d79b4455b3.json");
-//console.log('firebase', process.env.FIREBASE_PK.replace(/\\n/g, '\n'));
+console.log('firebase', process.env.FIREBASE_PK.replace(/\\n/g, '\n'));
 
 var serviceAccount = {
     "type": "service_account",

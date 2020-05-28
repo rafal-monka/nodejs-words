@@ -31,6 +31,20 @@ app.get("/home", (req, res) => {
     res.json({ message: "Welcome to Words application." });
 });
 
+app.get("/test", (req, res) => {
+  //TEST FireBase manually
+  console.log('INIT')
+  let token = 'fyi5yaY9QSOiLJja60DDYr:APA91bFp6HW-BPjrajRbd0h_eCPKZmMWbHUBrSPrE8Si0NVZSzVZ1EuPUi0Khf4pAky65KnDVIojIIeCXaQeyicHEPqT-CIpULRL7G3bRf8_RI2YVXsiPAl-EX0WCIhSN71zU5_Fi-6g';
+  let notif = {
+    title: 'TEST-01',
+    body: 'TEST-01',
+    color: '#ff0000'
+  }
+  reminder.sendMessage(token, notif);
+  res.json({ message: "TEST DONE" });
+});
+
+
 
 //include public folder with SPA app
 app.use(
@@ -58,15 +72,7 @@ console.log('process.env.DB_USER', process.env.DB_USER);
 //reminder
 reminder.remindWord()
 
-//TEST FireBase manually
-// console.log('INIT')
-// let token = 'cHifhr5lRbq3bk4Q4f61Yx:APA91bFyJBAKUWDXLsvRiUV4UDdaH-fZVNfZgdiX1AUtbGzC4FBUCAOCykWRglMNCCp3tUwESBsRA0OTp6k0HRnI3JnE8Wc40UNJbXXsJHGs16Lcah-Anv65AGcNaBDRFF30D_nmubSs';
-// let notif = {
-//   title: 'TEST-01',
-//   body: 'TEST-01',
-//   color: '#ff0000'
-// }
-// reminder.sendMessage(token, notif);
+
 
 
 // //1

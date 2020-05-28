@@ -8,7 +8,7 @@ var serviceAccount = {
     "type": "service_account",
     "project_id": "memory-248a2",
     "private_key_id": "e9d79b4455b30249975618502c61af30787f21a4",
-    "private_key": process.env.FIREBASE_PK.replace(/\\n/g, '\n'), 
+    "private_key": process.env.FIREBASE_PK.replace(/\\n/g, "\n"), 
     "client_email": "firebase-adminsdk-5ve7h@memory-248a2.iam.gserviceaccount.com",
     "client_id": "116268897815062284769",
     "auth_uri": "https://accounts.google.com/o/oauth2/auth",
@@ -20,7 +20,7 @@ var serviceAccount = {
 const CONST_TOKEN = 'cHifhr5lRbq3bk4Q4f61Yx:APA91bFyJBAKUWDXLsvRiUV4UDdaH-fZVNfZgdiX1AUtbGzC4FBUCAOCykWRglMNCCp3tUwESBsRA0OTp6k0HRnI3JnE8Wc40UNJbXXsJHGs16Lcah-Anv65AGcNaBDRFF30D_nmubSs';
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
+  credential: admin.credential.cert(JSON.parse(JSON.stringify(serviceAccount))),
   databaseURL: "https://memory-248a2.firebaseio.com"
 })
 

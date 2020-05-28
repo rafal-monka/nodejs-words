@@ -2,13 +2,13 @@ require('dotenv').config();
 var admin = require("firebase-admin");
 
 //var serviceAccount = require("./config/memory-248a2-e9d79b4455b3.json");
-console.log('firebase', process.env.FIREBASE_PK.replace(/\\n/g, '\n'));
+console.log('firebase', process.env.FIREBASE_PK.replace(/@/g, "\n"));
 
 var serviceAccount = {
     "type": "service_account",
     "project_id": "memory-248a2",
     "private_key_id": "e9d79b4455b30249975618502c61af30787f21a4",
-    "private_key": process.env.FIREBASE_PK.replace(/\\n/g, "\n"), 
+    "private_key": process.env.FIREBASE_PK.replace(/@/g, "\n"), 
     "client_email": "firebase-adminsdk-5ve7h@memory-248a2.iam.gserviceaccount.com",
     "client_id": "116268897815062284769",
     "auth_uri": "https://accounts.google.com/o/oauth2/auth",

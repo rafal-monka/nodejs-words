@@ -12,7 +12,7 @@ var reminder = require('./app/reminder');
 
 const db = require("./app/models");
 //@@@development = true; production = false
-db.sequelize.sync(  { force: false }  ); //!!! In development, you may need to drop existing tables and re-sync database.
+db.sequelize.sync(  { force: true }  ); //!!! In development, you may need to drop existing tables and re-sync database.
 storage.test();
 
 const whitelist = [ "http://localhost:4200" ];

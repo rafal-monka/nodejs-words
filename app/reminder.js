@@ -10,14 +10,15 @@ module.exports.remindWord = async () => {
     let devices = await getDevices()
     console.log('devices', devices)
 
-    let word = await randomWord()
-    console.log('wordR', word)
+    let word = await this.randomWord()
+    console.log('word', word)
     
     try {
         let notif = {
             title: word.phrase,
             body:  word.sentence + '\n' +word.translation,
-            color: getTagColor(word.tags)
+            color: getTagColor(word.tags),
+            id: ''+word.id
         }        
 
         devices.forEach(device => {
@@ -29,10 +30,10 @@ module.exports.remindWord = async () => {
        
 }    
 
-randomWord = async () => {
+module.exports.randomWord = async () => {
     try {
         let words = await axios({
-            url: process.env.API_URL,
+            url: process.env.API_URL+'/findAllToRemind',
             methog: 'get'
         })
         let rnd = Math.floor(Math.random() * words.data.length)

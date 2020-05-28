@@ -78,6 +78,21 @@ exports.findAll = async (req, res) => {
       }); 
 }
 
+//get all records to remind
+exports.findAllToRemind = async (req, res) => {
+  Words.findAll({ where: {counter: 0} })
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Error occurred while retrieving words."
+      });
+    }); 
+}
+
+
 //https://dev.to/mcdavid95/how-to-paginate-your-nodejs-apis-1ag3
 exports.getAll = async (req, res) => {
     // try {

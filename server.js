@@ -3,19 +3,19 @@
  */
 require('dotenv').config();
 const express = require("express");
+request = require("request");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const path = require('path');
 const storage = require("./app/storage.js");
+var reminder = require('./app/reminder');
 
 const db = require("./app/models");
 //@@@development = true; production = false
 db.sequelize.sync(  { force: false }  ); //!!! In development, you may need to drop existing tables and re-sync database.
 storage.test();
 
-const whitelist = [
-  "http://localhost:4200", 
-];
+const whitelist = [ "http://localhost:4200" ];
 
 const corsOptions = {
   origin: whitelist
@@ -43,6 +43,7 @@ app.use(cors());
 
 
 require("./app/routes/word-routes")(app);
+require("./app/routes/token-routes")(app);
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
@@ -53,6 +54,94 @@ console.log('process.env.DB_HOST', process.env.DB_HOST, process.env.DB_PORT);
 console.log('process.env.DB_DATABASE', process.env.DB_DATABASE);
 console.log('process.env.DB_USER', process.env.DB_USER);
 
+
+//reminder
+//reminder.remindWord()
+console.log('INIT')
+let token = 'cHifhr5lRbq3bk4Q4f61Yx:APA91bFyJBAKUWDXLsvRiUV4UDdaH-fZVNfZgdiX1AUtbGzC4FBUCAOCykWRglMNCCp3tUwESBsRA0OTp6k0HRnI3JnE8Wc40UNJbXXsJHGs16Lcah-Anv65AGcNaBDRFF30D_nmubSs';
+let notif = {
+  title: 'TEST-01',
+  body: 'TEST-01',
+  color: '#ff0000'
+}
+reminder.sendMessage(token, notif);
+
+// //1
+// let userId = '100357139298762566358'; 
+// let additionalClaims = {
+//   premiumAccount: false
+// };
+// if (false) firebase.admin.auth().createCustomToken(userId, additionalClaims)
+//   .then(function(customToken) {
+//     // Send token back to client
+//     console.log('customToken', customToken)
+
+//     const message = {
+//       notification: {
+//         title: 'SPECOZ Offers1',
+//         body: 'body_data'
+//       },
+//       data: {
+//         score: 'Test', time: 'Test'
+//       },
+//       token: customToken
+//     }
+
+//     firebase.admin.messaging().send(message)
+//       .then(res => {
+//         console.log('message sent', res);
+//       })
+//       .catch((error) => {
+//         console.log('Error sending message:', error);
+//       });
+    
+
+//   })
+//   .catch(function(error) {
+//     console.log('Error creating custom token:', error);
+//   });
+
+// //2
+// const sendNotifications = (data) => {
+//   const dataString = JSON.stringify(data)
+//   const headers = {
+//       'Authorization': 'key=AAAAIj0-C5M:APA91bGH3d1MF6JiQt-e2wRY4YZdjJC4S4i-LY-NwOr9bJPn9ARz0tUO5au5GZsL62WNANs0IZzhSDzNsf1gNNIOABe3xs1H_lDFgVqoQ6osSM8txlwkyKNzY9bREJtTxEvgnepLfwt3',
+//       'Content-Type': 'application/json',
+//       'Content-Length': dataString.length
+//   }
+//   const options = {
+//       uri: 'https://fcm.googleapis.com/fcm/send',
+//       method: 'POST',
+//       headers: headers,
+//       json: data
+//   }
+
+//   request(options, function (err, res, body) {
+//       if (err) throw err
+//       else console.log(body)
+//       console.log('...')
+//   })
+// }
+
+// const sendToTopics = (msg, title, topic) => {
+//   const data = {
+//       to: "__TO__",
+//       data: {
+//           body: msg,
+//           title: title
+//       },
+//       notification: {
+//         title: 'SPECOZ Offers1',
+//         body: 'body_data'
+//     }
+//   }
+//   // sendNotifications(data)
+// }
+
+// sendToTopics('Go!','Title','Topic'); 
+
+
+// 
 // app.get("/", (req, res) => {
 //     let text = req.query.text;
 //     // translator.translate(text)

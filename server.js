@@ -72,6 +72,7 @@ console.log('process.env.DB_USER', process.env.DB_USER);
 
 //reminder
 // var rule = new schedule.RecurrenceRule();
+reminder.remindWord();
 cronParams = "0 */15 4-20 * * *";
 var j = schedule.scheduleJob(cronParams, function(){ 
   // console.log(new Date())

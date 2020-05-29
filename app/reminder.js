@@ -1,9 +1,6 @@
 var firebase = require('./firebase');
 var axios = require('axios');
 
-module.exports.sendMessage = (token, notif) => {
-    firebase.sendMessage(token, notif)
-}
 module.exports.remindWord = async () => {
     console.log('reminder', new Date())
 
@@ -20,14 +17,15 @@ module.exports.remindWord = async () => {
             color: getTagColor(word.tags),
             id: ''+word.id
         }        
-
         devices.forEach(device => {
             firebase.sendMessage(device.token, notif)    
         });
+        return word;
+
     } catch (e) {
         console.log(e)
+        return e;
     }
-       
 }    
 
 module.exports.randomWord = async () => {

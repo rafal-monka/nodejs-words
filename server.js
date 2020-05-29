@@ -32,18 +32,9 @@ app.get("/home", (req, res) => {
     res.json({ message: "Welcome to Words application." });
 });
 
-app.get("/test", (req, res) => {
-  //TEST FireBase manually
-  console.log('INIT')
-  let token = 'fyi5yaY9QSOiLJja60DDYr:APA91bFp6HW-BPjrajRbd0h_eCPKZmMWbHUBrSPrE8Si0NVZSzVZ1EuPUi0Khf4pAky65KnDVIojIIeCXaQeyicHEPqT-CIpULRL7G3bRf8_RI2YVXsiPAl-EX0WCIhSN71zU5_Fi-6g';
-  let notif = {
-    title: 'TEST-01',
-    body: 'TEST-01',
-    color: '#ff0000',
-    id: ''+0
-  }
-  reminder.sendMessage(token, notif);
-  res.json({ message: "TEST DONE" });
+app.get("/remind", async (req, res) => {
+  let word = await reminder.remindWord();
+  res.json({ message: word });
 });
 
 
@@ -54,9 +45,6 @@ app.use(
 );
 
 app.use(cors());
-//https://stackoverflow.com/questions/56181443/how-can-i-run-angular-app-on-node-server
-// app.get('/*', (req, res) => res.sendFile(path.join(__dirname)));
-
 
 require("./app/routes/word-routes")(app);
 require("./app/routes/token-routes")(app);
@@ -71,23 +59,24 @@ console.log('process.env.DB_DATABASE', process.env.DB_DATABASE);
 console.log('process.env.DB_USER', process.env.DB_USER);
 
 
-//reminder
-// reminder.remindWord();
-// reminder.randomWord().then(res => {
-//   console.log('word', res)
-// })
-
-
 // var rule = new schedule.RecurrenceRule();
 reminder.remindWord(); 
+//"0 */15 4-20 * * *" every 15 minutes
 
-cronParams = "0 */15 4-20 * * *";
+cronParams = "0 0 4-20 * * *";
+console.log('schedule', cronParams)
 var j = schedule.scheduleJob(cronParams, function(){ 
   reminder.remindWord()
 });
 
 
 
+//-----------------------------------------------------------------------------------------------------------
+//reminder
+// reminder.remindWord();
+// reminder.randomWord().then(res => {
+//   console.log('word', res)
+// })
 
 
 // //1

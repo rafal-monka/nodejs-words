@@ -45,8 +45,7 @@ module.exports.randomWord = async () => {
 }
 
 //get all devices from database
-getDevices = async (phrase) => {
-    console.log('process.env.API_TOKENS_URL', process.env.API_TOKENS_URL)
+getDevices = async (phrase) => {    
     try {
         let res = await axios({
             url: process.env.API_TOKENS_URL,

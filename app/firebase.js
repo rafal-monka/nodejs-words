@@ -2,22 +2,21 @@ require('dotenv').config();
 var admin = require("firebase-admin");
 
 //var serviceAccount = require("./config/memory-248a2-e9d79b4455b3.json");
-console.log('firebase', process.env.FIREBASE_PK.replace(/@/g, "\n"));
+console.log('FIREBASE_PRIVATE_KEY', process.env.FIREBASE_PRIVATE_KEY.replace(/@/g, "\n"));
+console.log('FIREBASE_CLIENT_EMAIL', process.env.FIREBASE_CLIENT_EMAIL);
 
 var serviceAccount = {
     "type": "service_account",
     "project_id": "memory-248a2",
     "private_key_id": "e9d79b4455b30249975618502c61af30787f21a4",
-    "private_key": process.env.FIREBASE_PK.replace(/@/g, "\n"), 
-    "client_email": "firebase-adminsdk-5ve7h@memory-248a2.iam.gserviceaccount.com",
+    "private_key": process.env.FIREBASE_PRIVATE_KEY.replace(/@/g, "\n"), 
+    "client_email": process.env.FIREBASE_CLIENT_EMAIL, 
     "client_id": "116268897815062284769",
     "auth_uri": "https://accounts.google.com/o/oauth2/auth",
     "token_uri": "https://oauth2.googleapis.com/token",
     "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
     "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-5ve7h%40memory-248a2.iam.gserviceaccount.com"
   }
-
-// const CONST_TOKEN = 'cHifhr5lRbq3bk4Q4f61Yx:APA91bFyJBAKUWDXLsvRiUV4UDdaH-fZVNfZgdiX1AUtbGzC4FBUCAOCykWRglMNCCp3tUwESBsRA0OTp6k0HRnI3JnE8Wc40UNJbXXsJHGs16Lcah-Anv65AGcNaBDRFF30D_nmubSs';
 
 admin.initializeApp({
   credential: admin.credential.cert(JSON.parse(JSON.stringify(serviceAccount))),

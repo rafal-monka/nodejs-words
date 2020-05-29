@@ -57,7 +57,7 @@ app.listen(PORT, () => {
 console.log('process.env.DB_HOST', process.env.DB_HOST, process.env.DB_PORT);
 console.log('process.env.DB_DATABASE', process.env.DB_DATABASE);
 console.log('process.env.DB_USER', process.env.DB_USER);
-
+console.log('process.env.API_TOKENS_URL', process.env.API_TOKENS_URL)
 
 // var rule = new schedule.RecurrenceRule();
 reminder.remindWord(); 

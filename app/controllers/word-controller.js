@@ -89,7 +89,7 @@ exports.findTop10ToRemind = async (req, res) => {
       pool.query(
         "SELECT sign(counter) AS sign, "+ 
                "POWER(2, LENGTH('ABCD')-INSTR('ABCD', tags)) * (counter+1) AS severity, "+ 
-               "id, counter, tags, phrase "+
+               "id, counter, tags, phrase, sentence, translation "+
           "FROM words t "+
          "WHERE counter >= 0 "+ 
          "ORDER BY sign ASC, severity DESC, id ASC "+

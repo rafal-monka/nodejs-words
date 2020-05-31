@@ -15,7 +15,7 @@ module.exports.remindWord = async () => {
     try {
         let notif = {
             title: word.phrase,
-            body:  word.sentence + '\n' +word.translation,
+            body:  (word.sentence ? word.sentence+'\n\n' : '')+word.translation,
             color: getTagColor(word.tags),
             id: ''+word.id
         }        
@@ -43,7 +43,7 @@ module.exports.randomWord = async () => {
         );
         return words.data[rnd];
     } catch (error) {
-        console.log('###Error: getTokens');
+        console.log('###Error: randomWord');
         console.error(error);
         return null
     }    

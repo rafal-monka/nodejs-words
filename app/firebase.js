@@ -25,6 +25,7 @@ admin.initializeApp({
 
 exports.sendMessage = (token, notif) => {
 console.log('sendMessage - token', token);
+// console.log("notif.body", notif.body);
     const message = {
         // notification: { //info: https://firebase.google.com/docs/reference/fcm/rest/v1/projects.messages#AndroidNotification
         //     title: notif.title,

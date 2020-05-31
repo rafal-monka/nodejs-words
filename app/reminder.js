@@ -1,14 +1,16 @@
 var firebase = require('./firebase');
 var axios = require('axios');
+const db = require("./models");
+const Words = db.words;
 
 module.exports.remindWord = async () => {
-    console.log('reminder', new Date())
+    console.log('remindWord.reminder', new Date())
 
     let devices = await getDevices()
-    console.log('devices', devices)
+    console.log('remindWord.devices', devices)
 
     let word = await this.randomWord()
-    console.log('word', word)
+    console.log('remindWord.word', word)
     
     try {
         let notif = {
@@ -31,11 +33,14 @@ module.exports.remindWord = async () => {
 module.exports.randomWord = async () => {
     try {
         let words = await axios({
-            url: process.env.API_URL+'/findAllToRemind',
+            url: process.env.API_URL+'/findtop10toremind',
             methog: 'get'
         })
         let rnd = Math.floor(Math.random() * words.data.length)
-// console.log('randomWord.result', words.data[rnd])
+        await Words.update(
+            { counter: +words.data[rnd].counter+1 }, 
+            { where: { id: words.data[rnd].id } }
+        );
         return words.data[rnd];
     } catch (error) {
         console.log('###Error: getTokens');

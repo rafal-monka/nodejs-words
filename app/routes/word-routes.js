@@ -8,7 +8,7 @@ module.exports = app => {
     router.get("/", words.findAll);
 
     // Get all words to remind
-    router.get("/findalltoremind", words.findAllToRemind);
+    router.get("/findtop10toremind", words.findTop10ToRemind);
 
     // Get a word
     router.get("/find/:id", words.findOne);

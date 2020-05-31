@@ -60,22 +60,20 @@ console.log('process.env.DB_USER', process.env.DB_USER);
 console.log('process.env.API_TOKENS_URL', process.env.API_TOKENS_URL)
 
 // var rule = new schedule.RecurrenceRule();
-reminder.remindWord(); 
-//"0 */15 4-20 * * *" every 15 minutes
-
-cronParams = "0 0 4-20 * * *";
+cronParams = "0 0 4-20 * * *"; //every hour between 6am to 22pm GMT+2
 console.log('schedule', cronParams)
+//#A/a "0 */15 4-20 * * *" every 15 minutes
+reminder.remindWord(); 
 var j = schedule.scheduleJob(cronParams, function(){ 
   reminder.remindWord()
 });
 
 
-
 //-----------------------------------------------------------------------------------------------------------
 //reminder
-// reminder.remindWord();
+//reminder.remindWord();
 // reminder.randomWord().then(res => {
-//   console.log('word', res)
+//   console.log('server.randomWord().word', res)
 // })
 
 

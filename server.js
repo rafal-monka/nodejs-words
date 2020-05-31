@@ -64,9 +64,9 @@ cronParams = "0 0 4-20 * * *"; //every hour between 6am to 22pm GMT+2
 console.log('schedule', cronParams)
 //#A/a "0 */15 4-20 * * *" every 15 minutes
 reminder.remindWord(); 
-// var j = schedule.scheduleJob(cronParams, function(){ 
-//   reminder.remindWord()
-// });
+var j = schedule.scheduleJob(cronParams, function(){ 
+  reminder.remindWord()
+});
 
 
 //-----------------------------------------------------------------------------------------------------------

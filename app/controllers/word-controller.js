@@ -2,11 +2,14 @@ const pagination = require("paginate-info");
 var axios = require('axios');
 require('dotenv').config();
 const db = require("../models");
+const dbConfig = require("../config/db-config");
 const translator = require("../translator.js");
 
 const Words = db.words;
 const Op = db.Sequelize.Op;
 
+
+//translate  text
 exports.translate = async (req, res) => {
     console.log("translate", req.query.text);
     let text = req.query.text;
@@ -24,7 +27,7 @@ exports.translate = async (req, res) => {
     })
 }
 
-// Create and Save a new Catalog item
+//create new word
 exports.create = async (req, res) => {
     console.log("create", req.body.phrase);
     // Validate request
@@ -78,20 +81,28 @@ exports.findAll = async (req, res) => {
       }); 
 }
 
-//get all records to remind
-exports.findAllToRemind = async (req, res) => {
-  Words.findAll({ where: {counter: 0} })
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Error occurred while retrieving words."
-      });
-    }); 
+//get top 10 records (to random) to remind
+exports.findTop10ToRemind = async (req, res) => {
+  console.log('findTop10ToRemind');
+  try {
+      let pool = dbConfig.getConnectionPool();         
+      pool.query(
+        "SELECT sign(counter) AS sign, "+ 
+               "POWER(2, LENGTH('ABCD')-INSTR('ABCD', tags)) * (counter+1) AS severity, "+ 
+               "id, counter, tags, phrase "+
+          "FROM words t "+
+         "WHERE counter >= 0 "+ 
+         "ORDER BY sign ASC, severity DESC, id ASC "+
+         "LIMIT 10", 
+        [], function(error, data, fields) {
+            if (error) throw error;    
+            const results = JSON.parse(JSON.stringify(data));
+            res.send(results);         
+        });
+  } catch (e) {
+      console.log(e.toString());
+  } 
 }
-
 
 //https://dev.to/mcdavid95/how-to-paginate-your-nodejs-apis-1ag3
 exports.getAll = async (req, res) => {

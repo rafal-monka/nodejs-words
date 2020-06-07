@@ -14,7 +14,8 @@ exports.create = async (req, res) => {
     // Create record
     const obj = {
         device: req.body.device,
-        token: req.body.token
+        token: req.body.token,
+        name: req.body.name
     }
 
     // Delete first (if exists)

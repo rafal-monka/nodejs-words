@@ -1,7 +1,6 @@
 var firebase = require('./firebase');
 var axios = require('axios');
-const db = require("./models");
-const Words = db.words;
+const Word = require('./models/word-model')
 
 module.exports.remindWord = async () => {
     console.log('remindWord.reminder', new Date())
@@ -17,7 +16,7 @@ module.exports.remindWord = async () => {
             title: word.phrase,
             body:  (word.sentence ? word.sentence+'\n\n' : '')+word.translation,
             color: getTagColor(word.tags),
-            id: ''+word.id
+            _id: ''+word._id
         }        
         devices.forEach(device => {
             firebase.sendMessage(device.token, notif)    
@@ -37,10 +36,11 @@ module.exports.randomWord = async () => {
             methog: 'get'
         })
         let rnd = Math.floor(Math.random() * words.data.length)
-        await Words.update(
-            { counter: +words.data[rnd].counter+1 }, 
-            { where: { id: words.data[rnd].id } }
-        );
+console.log('words.data[rnd]', rnd, words.data[rnd])
+        await Word.findByIdAndUpdate(words.data[rnd]._id, { counter: +words.data[rnd].counter+1 }, function (err) {
+            if (err) console.error(err)
+            console.log('reminder.randomWord.findByIdAndUpdate success')
+        }) 
         return words.data[rnd];
     } catch (error) {
         console.log('###Error: randomWord');

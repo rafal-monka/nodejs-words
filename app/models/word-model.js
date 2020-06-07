@@ -1,49 +1,17 @@
-//Product
-module.exports = (sequelize, Sequelize) => {
-    const Word = sequelize.define("word", {      
-      phrase: {
-        type: Sequelize.STRING(255),
-        allowNull: false,
-        unique: false
-      },   
-      hws: {
-        type: Sequelize.TEXT,
-        allowNull: true
-      },
-      speechpart: {
-        type: Sequelize.STRING(255),
-        allowNull: true
-      },          
-      sentence: {
-        type: Sequelize.TEXT,
-        allowNull: true
-      },
-      translation: {
-        type: Sequelize.TEXT,
-        allowNull: true
-      },
-      examples: {
-        type: Sequelize.TEXT,
-        allowNull: true
-      },
-      tags: {
-        type: Sequelize.STRING(255),
-        allowNull: true
-      },
-      counter: {
-        type: Sequelize.DECIMAL,
-        allowNull: true
-      },     
-      createdAt: {
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('NOW()'),
-        allowNull: false 
-      },
-      updatedAt: {
-        type: Sequelize.DATE,
-        allowNull: true 
-      }
-    });
-  
-    return Word;
-  };
+
+const mongoose = require('mongoose')
+
+const wordSchema = new mongoose.Schema({ 
+    phrase: String,
+    hws: String,
+    speechpart: String,
+    sentence: String,
+    translation: String,
+    examples : String,
+    tags : String,
+    counter : Number,
+    created_at: { type: Date, default: new Date() },
+    updated_at: { type: Date, default: null }
+})
+
+module.exports = mongoose.model('Word', wordSchema)

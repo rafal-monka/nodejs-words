@@ -1,115 +1,57 @@
-var axios = require('axios');
-require('dotenv').config();
-const db = require("../models");
-
-const Tokens = db.tokens;
-const Op = db.Sequelize.Op;
+const FirebaseToken = require('../models/firebase-token-model')
 
 // Create 
 exports.create = async (req, res) => {
-    console.log("create", req.body.phrase);
+    console.log("token-controller.create (device, token)", req.body.device, req.body.token);
     // Validate request
     if (!req.body.device && !req.body.token) {
         res.status(400).send({
-            message: "Content can not be empty!"
+            message: "Device and token can not be empty!"
         });
-        return;
+        return
     }
 
-    // Create
-    const token = {
+    // Create record
+    const obj = {
         device: req.body.device,
         token: req.body.token
-    };
+    }
 
-    //First delete (if exists)
-    Tokens.destroy({
-        where: { device: token.device }
-      })
-        .then(num => {
-          if (num == 1) {
-            console.log( "Deleted successfully!" + token.device);
-          } else {
-            console.log( `Cannot delete with token.device=${token.device}. Maybe Item was not found!`);
-          }
-        })
-        .catch(err => {
-          res.status(500).send({
-            message: "Could not delete with id=" + token.device
-          });
-        }); 
-
-    //Insert into the database
-    Tokens.create(token)
-        .then(data => {
-            res.send(data);
-        })
-        .catch(err => {
-            res.status(500).send({
-                message:
-                err.message || "Some error occurred while creating token."
-            });
-        });  
-
-};
-
-
-// Find a single 
-exports.findOne = (req, res) => {
-    const device = req.params.device;
-
-    Tokens.findOne({
-        where: {
-            device: device
+    // Delete first (if exists)
+    console.log("token-controller.findOneAndDelete...")
+    FirebaseToken.findOneAndDelete({ device: obj.device }, function (err) {
+        if (err) console.error(err)
+        console.log("token-controller.findOneAndDelete success")
+    }) 
+          
+    //Insert token into database
+    console.log("token-controller.save...")
+    let token = new FirebaseToken(obj)
+    token.save(function (err) {
+        if (err) {
+            console.error(err) //return handleError(err); //###
+            res.json(err)
         }
-    })
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: "Error retrieving device=" + device
-      });
-    });  
-};
+        console.log("token-controller.save success", token)
+        res.json(token)
+    }) 
+}
 
+// Find a token by device
+exports.findOne = (req, res) => {
+    const device = req.params.device
+    console.log('token-controller.findOne by device', device)
+    FirebaseToken.findOne({ device: device }, function (err, token) {
+        if (err) console.error(err)
+        console.log("token-controller.findOne success");
+        res.json(token)   
+    })   
+}
 
-
+// Find all tokens/devices
 exports.findAll = (req, res) => {
-    Tokens.findAll()
-      .then(data => {
-        res.send(data);
-      })
-      .catch(err => {
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred while retrieving records."
-        });
-      });  
-};
-
-
-// Update 
-exports.update = (req, res) => {
-  const id = req.params.id;
-console.log('update');
-  Tokens.update(req.body, {
-    where: { id: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        res.send({
-          message: "Updated successfully."
-        });
-      } else {
-        res.send({
-          message: `Cannot update with id=${id}. Maybe was not found or req.body is empty!`
-        });
-      }
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: "Error updating with id=" + id
-      });
-    });  
-};
+  FirebaseToken.find({}, function (err, docs) {
+      if (err) console.error(err)
+      res.json(docs)        
+  })   
+}

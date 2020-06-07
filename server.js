@@ -44,8 +44,6 @@ app.listen(PORT, () => {
   console.log(`Server Node Words is running on port ${PORT}.`);
 });
 
-console.log('process.env.API_TOKENS_URL', process.env.API_TOKENS_URL)
-
 //init database
 initDatabase()
 

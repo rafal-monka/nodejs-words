@@ -38,9 +38,11 @@ module.exports.remindWord = async () => {
 }    
 
 module.exports.randomWord = async () => {
+    const url = 'http://localhost:'+process.env.PORT+'/api/words/findtop10toremind'
+    console.log('reminder.randomWord:url', url)
     try {
         let words = await axios({
-            url: process.env.API_WORDS_URL+'/findtop10toremind', //### /api/words/... and DELETE env.API_WORDS_URL
+            url: url, 
             methog: 'get'
         })
         if (words.data.length === 0) return null 
@@ -58,11 +60,12 @@ module.exports.randomWord = async () => {
 }
 
 //get all devices from database
-getDevices = async (phrase) => {    
-    console.log('reminder.getDevices:url', process.env.API_TOKENS_URL)
+getDevices = async (phrase) => {
+    const url = 'http://localhost:'+process.env.PORT+'/api/tokens/' // ###devices?    
+    console.log('reminder.getDevices:url', url)
     try {
         let res = await axios({
-            url: process.env.API_TOKENS_URL, // /api/tokens/ -> devices? and DELETE env.API_TOKENS_URL
+            url: url,
             methog: 'get'
         })
         return res.data

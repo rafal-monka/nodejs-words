@@ -8,6 +8,10 @@ module.exports.remindWord = async () => {
     let devices = await getDevices()
     console.log('remindWord.devices', devices)
 
+    if (devices === null) {
+        console.log('No devices found')
+        return
+    }
     let word = await this.randomWord()
     console.log('remindWord.word', word)
     
@@ -32,7 +36,7 @@ module.exports.remindWord = async () => {
 module.exports.randomWord = async () => {
     try {
         let words = await axios({
-            url: process.env.API_WORDS_URL+'/findtop10toremind',
+            url: process.env.API_WORDS_URL+'/findtop10toremind', //### /api/words/... and DELETE env.API_WORDS_URL
             methog: 'get'
         })
         let rnd = Math.floor(Math.random() * words.data.length)
@@ -51,9 +55,10 @@ console.log('words.data[rnd]', rnd, words.data[rnd])
 
 //get all devices from database
 getDevices = async (phrase) => {    
+    console.log('reminder.getDevices:url', process.env.API_TOKENS_URL)
     try {
         let res = await axios({
-            url: process.env.API_TOKENS_URL,
+            url: process.env.API_TOKENS_URL, // /api/tokens/ -> devices? and DELETE env.API_TOKENS_URL
             methog: 'get'
         })
         return res.data

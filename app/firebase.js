@@ -43,11 +43,13 @@ console.log('sendMessage - token', token);
             title: notif.title,
             body: notif.body, 
             color: notif.color,
-            id: notif.id            
+            _id: notif._id            
         },
         token: token
     }
     
+    console.log('sendMessage - message', message);
+
     admin.messaging().send(message)
         .then(res => {
             console.log('message sent', res);

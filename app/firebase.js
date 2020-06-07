@@ -27,18 +27,6 @@ exports.sendMessage = (token, notif) => {
 console.log('sendMessage - token', token);
 // console.log("notif.body", notif.body);
     const message = {
-        // notification: { //info: https://firebase.google.com/docs/reference/fcm/rest/v1/projects.messages#AndroidNotification
-        //     title: notif.title,
-        //     body: notif.body,    
-        // },
-        // android:{
-        //     notification: { 
-        //         channel_id: "channel_id_1", 
-        //         color: notif.color, 
-        //         click_action: "OPEN_ACTIVITY_1"
-        //     },
-        //     priority:"normal"    
-        // },
         data: {
             title: notif.title,
             body: notif.body, 
@@ -96,3 +84,17 @@ const sendNotification = (data) => {
 //       },
 //       direct_book_ok : true
 //   })
+
+
+        // notification: { //info: https://firebase.google.com/docs/reference/fcm/rest/v1/projects.messages#AndroidNotification
+        //     title: notif.title,
+        //     body: notif.body,    
+        // },
+        // android:{
+        //     notification: { 
+        //         channel_id: "channel_id_1", 
+        //         color: notif.color, 
+        //         click_action: "OPEN_ACTIVITY_1"
+        //     },
+        //     priority:"normal"    
+        // },

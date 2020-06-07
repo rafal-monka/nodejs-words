@@ -3,14 +3,12 @@
  */
 require('dotenv').config();
 const express = require("express");
-request = require("request");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const path = require('path');
 const schedule = require('node-schedule');
-//const storage = require("./app/storage.js");
 const initDatabase = require('./config/database')
-var reminder = require('./app/reminder');
+const reminder = require('./app/reminder');
 
 const app = express(); //=all; corsOptions
 app.use(cors());
@@ -35,10 +33,11 @@ app.use(
   express.static(path.join(__dirname, 'public'))
 );
 
-
+//routes
 require("./app/routes/word-routes")(app);
 require("./app/routes/token-routes")(app);
 
+//start server
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server Node Words is running on port ${PORT}.`);
@@ -47,14 +46,16 @@ app.listen(PORT, () => {
 //init database
 initDatabase()
 
-//schedule
-// var rule = new schedule.RecurrenceRule();
+//schedule word reminder
 cronParams = "0 0 4-20 * * *"; //every hour between 6am to 22pm GMT+2
 console.log('schedule', cronParams)
-//#A/a "0 */15 4-20 * * *" every 15 minutes
 reminder.remindWord(); 
 var j = schedule.scheduleJob(cronParams, function(){ 
   reminder.remindWord()
 });
 
 module.exports = app; // for testing
+
+//---
+// var rule = new schedule.RecurrenceRule();
+//#A/a "0 */15 4-20 * * *" every 15 minutes

@@ -39,7 +39,7 @@ exports.create = async (req, res) => {
            sentence: req.body.sentence,
         translation: req.body.translation,
            examples: req.body.examples,
-               tags: "",
+               tags: req.body.tags,
             counter: 0
     }
     let word = new Word(obj)
@@ -67,7 +67,8 @@ exports.findAll = async (req, res) => {
 exports.findTop10ToRemind = async (req, res) => {
     console.log('word-controller.findTop10ToRemind')
   
-    Word.find({counter: { $gte: 0} }, function (err, docs) {
+    Word.find({ counter: { $gte: 0} }, function (err, docs) {
+        console.log('docs.length',docs.length)
         if (err) console.error(err)
         let words = []
         docs.forEach(doc => {

@@ -45,7 +45,6 @@ module.exports.randomWord = async () => {
         })
         if (words.data.length === 0) return null 
         let rnd = Math.floor(Math.random() * words.data.length)
-console.log('words.data[rnd]', rnd, words.data[rnd])
         await Word.findByIdAndUpdate(words.data[rnd]._id, { counter: +words.data[rnd].counter+1 }, function (err) {
             if (err) console.error(err)
             console.log('reminder.randomWord.findByIdAndUpdate success')

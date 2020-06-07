@@ -24,11 +24,8 @@ exports.create = async (req, res) => {
         console.log("token-controller.findOneAndDelete success")
 
         //Insert token into database
-        console.log("token-controller.save1...")
         let token = new FirebaseToken(obj)
-        console.log("token-controller.save2...")
         token.save(function (err) {
-            console.log("token-controller.save3...")
             if (err) {
                 console.error(err) //return handleError(err); //###
                 res.json(err)

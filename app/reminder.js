@@ -32,7 +32,7 @@ module.exports.remindWord = async () => {
 module.exports.randomWord = async () => {
     try {
         let words = await axios({
-            url: process.env.API_URL+'/findtop10toremind',
+            url: process.env.API_WORDS_URL+'/findtop10toremind',
             methog: 'get'
         })
         let rnd = Math.floor(Math.random() * words.data.length)

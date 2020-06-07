@@ -54,8 +54,10 @@ exports.create = async (req, res) => {
 
 //get all records
 exports.findAll = async (req, res) => {
+    console.log('word-controller.findAll...')
     Word.find({}, function (err, docs) {
         if (err) console.error(err)
+        console.log('word-controller.findAll.Word.find callback')
         res.json(docs)        
     }) 
 }

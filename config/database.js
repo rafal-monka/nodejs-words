@@ -36,8 +36,9 @@ module.exports = () => {
   mongoose.connection.once('open', function() {
     console.log('Database connection successful.')            
   })
-  mongoose.connection.on('error', console.log)
+  mongoose.connection.on('error', function(err) {console.log(err)})
   mongoose.connection.on('disconnected', connect)
 
+  console.log('loadModels...')
   loadModels()
 }

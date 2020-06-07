@@ -32,4 +32,4 @@ module.exports = app => {
     router.get("/translatemw/:word", mw.translate);
 
     app.use('/api/words', router);
-  };
+};

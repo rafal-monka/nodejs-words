@@ -1,6 +1,7 @@
 const pagination = require("paginate-info");
 const Word = require('../models/word-model')
 const translator = require("../translator.js");
+const utils = require("../utils.js");
 
 //translate  text
 exports.translate = async (req, res) => {
@@ -9,15 +10,13 @@ exports.translate = async (req, res) => {
     if (text === "") res.json( {message: 'No query text'})
     await translator.getTranslation(text)
         .then(translation => {
-        //
-        let result = translator.parse(translation.data);
-        //console.log("parse", result);
-        res.json({ message: result });
-    })
-    .catch(error => {
-        console.log('ERROR-404');
-        res.status(404).send('Not found');
-    })
+            let result = translator.parse(translation.data);
+            res.json({ message: result });
+        })
+        .catch(error => {
+            console.log('ERROR-404');
+            res.status(404).send('Not found');
+        })
 }
 
 //create new word
@@ -63,7 +62,6 @@ exports.findAll = async (req, res) => {
 }
 
 //get top 10 records (to random) to remind
-//###...
 exports.findTop10ToRemind = async (req, res) => {
     console.log('word-controller.findTop10ToRemind')
   
@@ -115,10 +113,10 @@ exports.getAll = async (req, res) => {
     try {
         console.log(req.query);
         const count = await Word.estimatedDocumentCount()
-        console.log('word-controller.count', count)
-        console.log('word-controller. (currentPage, pageSize)', currentPage, pageSize)
+        // console.log('word-controller.count', count)
+        // console.log('word-controller. (currentPage, pageSize)', currentPage, pageSize)
         const { limit, offset } = pagination.calculateLimitAndOffset(currentPage, pageSize)
-        console.log('word-controller. (limit, offset)', limit, offset)
+        // console.log('word-controller. (limit, offset)', limit, offset)
         const rows = await Word.find({})
             .limit(limit)
             .skip(offset)

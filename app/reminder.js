@@ -14,7 +14,11 @@ module.exports.remindWord = async () => {
     }
     let word = await this.randomWord()
     console.log('remindWord.word', word)
-    
+    if (word === null) {
+        console.log('No words found')
+        return
+    }
+
     try {
         let notif = {
             title: word.phrase,
@@ -39,6 +43,7 @@ module.exports.randomWord = async () => {
             url: process.env.API_WORDS_URL+'/findtop10toremind', //### /api/words/... and DELETE env.API_WORDS_URL
             methog: 'get'
         })
+        if (words.data.length === 0) return null 
         let rnd = Math.floor(Math.random() * words.data.length)
 console.log('words.data[rnd]', rnd, words.data[rnd])
         await Word.findByIdAndUpdate(words.data[rnd]._id, { counter: +words.data[rnd].counter+1 }, function (err) {

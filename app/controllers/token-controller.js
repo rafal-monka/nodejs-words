@@ -42,16 +42,23 @@ exports.findOne = (req, res) => {
     const device = req.params.device
     console.log('token-controller.findOne by device', device)
     FirebaseToken.findOne({ device: device }, function (err, token) {
-        if (err) console.error(err)
-        console.log("token-controller.findOne success");
-        res.json(token)   
+        if (err) {
+            console.error(err)
+            next(err)
+        } else {
+            res.json(token) 
+        }
     })   
 }
 
 // Find all tokens/devices
 exports.findAll = (req, res) => {
-  FirebaseToken.find({}, function (err, docs) {
-      if (err) console.error(err)
-      res.json(docs)        
-  })   
+    FirebaseToken.find({}, function (err, docs) {
+        if (err) {
+            console.error(err)
+            next(err)
+        } else {
+            res.json(docs)        
+        }      
+    })   
 }

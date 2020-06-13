@@ -1,7 +1,7 @@
 const FirebaseToken = require('../models/firebase-token-model')
 
 // Create 
-exports.create = async (req, res) => {
+exports.create = (req, res, next) => {
     console.log("token-controller.create (device, token)", req.body.device, req.body.token);
     // Validate request
     if (!req.body.device && !req.body.token) {
@@ -20,45 +20,36 @@ exports.create = async (req, res) => {
 
     // Delete first (if exists)
     console.log("token-controller.findOneAndDelete...")
-    FirebaseToken.findOneAndDelete({ device: obj.device }, function (err) {
-        if (err) console.error(err)
-        console.log("token-controller.findOneAndDelete success")
+    FirebaseToken.findOneAndDelete({ device: obj.device })
+        .then(function (result){
+            //Insert token into database
+            let token = new FirebaseToken(obj)
+            token.save()
+                .then(function (result){
+                    res.status(200).json(result)
+                })
+                .catch (next) 
 
-        //Insert token into database
-        let token = new FirebaseToken(obj)
-        token.save(function (err) {
-            if (err) {
-                console.error(err) //return handleError(err); //###
-                res.json(err)
-            }
-            console.log("token-controller.save success", token)
-            res.json(token)
-        }) 
-    })          
+        })
+        .catch(next)
 }
 
 // Find a token by device
-exports.findOne = (req, res) => {
+exports.findOne = (req, res, next) => {
     const device = req.params.device
     console.log('token-controller.findOne by device', device)
-    FirebaseToken.findOne({ device: device }, function (err, token) {
-        if (err) {
-            console.error(err)
-            next(err)
-        } else {
-            res.json(token) 
-        }
-    })   
+    FirebaseToken.findOne({ device: device })
+        .then(function (result) {
+            res.json(result)
+        })
+        .catch (next) 
 }
 
 // Find all tokens/devices
-exports.findAll = (req, res) => {
-    FirebaseToken.find({}, function (err, docs) {
-        if (err) {
-            console.error(err)
-            next(err)
-        } else {
-            res.json(docs)        
-        }      
-    })   
+exports.findAll = (req, res, next) => {
+    FirebaseToken.find({})
+        .then(function (result) {
+            res.json(result)
+        })
+        .catch (next) 
 }

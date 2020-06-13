@@ -24,34 +24,30 @@ console.log('sendMessage - token', token);
         .then(res => {
             console.log('message sent', res);
         })
-        .catch((error) => {
-            console.log('Error sending message:', error);
-        });
 }
 
 
 //2 HTTP (not used)
-const sendNotification = (data) => {
-    const dataString = JSON.stringify(data)
-    const headers = {
-        'Authorization': 'key=AAAAPz2Qc_g:APA91bEpycCndpmtsa9DmMhXQOBGTqs43eyLFC_huzA6DUUrcDEQqDxLsha122xhcPjmJnFvd_bb1krv7zRE8C4yP65m2UNOmlAfJZiZQrJzXijhCKU9PEYkrp4P4P22fPvo7UKunLvv',
-        'Content-Type': 'application/json',
-        'Content-Length': dataString.length
-    }
-    const options = {
-        uri: 'https://fcm.googleapis.com/fcm/send',
-        method: 'POST',
-        headers: headers,
-        json: data
-    }
+// const sendNotification = (data) => {
+//     const dataString = JSON.stringify(data)
+//     const headers = {
+//         'Authorization': 'key=AAAAPz2Qc_g:APA91bEpycCndpmtsa9DmMhXQOBGTqs43eyLFC_huzA6DUUrcDEQqDxLsha122xhcPjmJnFvd_bb1krv7zRE8C4yP65m2UNOmlAfJZiZQrJzXijhCKU9PEYkrp4P4P22fPvo7UKunLvv',
+//         'Content-Type': 'application/json',
+//         'Content-Length': dataString.length
+//     }
+//     const options = {
+//         uri: 'https://fcm.googleapis.com/fcm/send',
+//         method: 'POST',
+//         headers: headers,
+//         json: data
+//     }
   
-    request(options, function (err, res, body) {
-        if (err) throw err
-        else console.log(body)
-        console.log('...')
-    })
-  }
-  
+//     request(options, function (err, res, body) {
+//         if (err) throw err
+//         else console.log(body)
+//         console.log('...')
+//     })
+//   }
   
   
 //   sendNotification({

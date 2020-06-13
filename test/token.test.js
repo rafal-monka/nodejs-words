@@ -5,6 +5,7 @@ let chaiHttp = require('chai-http')
 let server = require('../server')
 let should = chai.should()
 let logger = require('../app/winston')
+const FirebaseToken = require('../app/models/firebase-token-model')
 
 chai.use(chaiHttp); 
 
@@ -32,7 +33,7 @@ describe('Tokens', () => {
     describe('POST /create ', () => {
         it('it should create new token', (done) => {
             let token = {
-                device: 'DEVICE',
+                device: 'DEVICE', //Adroid Nexus: e4e88f0b81544e2c
                 token: 'TOKEN',
                 name: 'NAME'
             }
@@ -64,4 +65,14 @@ describe('Tokens', () => {
         })
     })
 
+    describe('DeleteToken', () => {
+        console.log('DeleteToken, device', device)
+        it('it should delete a token', (done) => {
+            FirebaseToken.findOneAndDelete({ device: device }, function (err) {
+                console.log('err=', err)
+                should.equal(err, null);
+                done();
+            })
+        })
+    })
 })

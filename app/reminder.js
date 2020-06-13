@@ -8,7 +8,7 @@ module.exports.remindWord = async () => {
     let devices = await getDevices()
     console.log('remindWord.devices', devices)
 
-    if (devices === null) {
+    if (devices === null || devices.length === 0) {
         console.log('No devices found')
         return
     }
@@ -21,7 +21,7 @@ module.exports.remindWord = async () => {
 
     try {
         let notif = {
-            title: word.phrase,
+            title: word.phrase+' ['+word.counter+']',
             body:  (word.sentence ? word.sentence+'\n\n' : '')+word.translation,
             color: getTagColor(word.tags),
             _id: ''+word._id
@@ -39,17 +39,18 @@ module.exports.remindWord = async () => {
 
 module.exports.randomWord = async () => {
     const url = 'http://localhost:'+process.env.PORT+'/api/words/findtop10toremind'
-    console.log('reminder.randomWord:url', url)
+    //console.log('reminder.randomWord:url', url)
     try {
         let words = await axios({
             url: url, 
             methog: 'get'
         })
         if (words.data.length === 0) return null 
+        //console.log('words.data.length',words.data.length)
         let rnd = Math.floor(Math.random() * words.data.length)
         await Word.findByIdAndUpdate(words.data[rnd]._id, { counter: +words.data[rnd].counter+1 }, function (err) {
             if (err) console.error(err)
-            console.log('reminder.randomWord.findByIdAndUpdate success')
+            //console.log('reminder.randomWord.findByIdAndUpdate success')
         }) 
         return words.data[rnd];
     } catch (error) {
@@ -62,7 +63,7 @@ module.exports.randomWord = async () => {
 //get all devices from database
 getDevices = async (phrase) => {
     const url = 'http://localhost:'+process.env.PORT+'/api/tokens/' // ###devices?    
-    console.log('reminder.getDevices:url', url)
+    //console.log('reminder.getDevices:url', url)
     try {
         let res = await axios({
             url: url,

@@ -2,11 +2,11 @@
 node_modules/
 # !public/node_modules/
 
+.nyc_output/
 
 config/memory-248a2-e9d79b4455b3.json
 
-public/my-app
-public/JS
+
 
 _todo.txt
 _OLD.txt

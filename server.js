@@ -9,7 +9,7 @@ const path = require('path');
 const schedule = require('node-schedule');
 const initDatabase = require('./config/database')
 const reminder = require('./app/reminder');
-
+  
 const app = express(); //=all; corsOptions
 app.use(cors());
 
@@ -36,11 +36,19 @@ app.use(
 //routes
 require("./app/routes/word-routes")(app);
 require("./app/routes/token-routes")(app);
+// custom 404 page
+app.use( (req, res) => res.json(
+    {status: 'fail', code: '404', msg: 'Page not found', request: req.method+':'+req.path}) 
+)
+// custom 500 page
+app.use( (err, req, res, next) => res.json(
+    {status: 'fail', code: '500', msg: err, request: req.method+':'+req.path}) 
+)
 
 //start server
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
-  console.log(`Server Node Words is running on port ${PORT}.`);
+    console.log(`Server Node Words is running on port ${PORT}.`);
 });
 
 //init database
@@ -51,11 +59,12 @@ cronParams = "0 0 4-20 * * *"; //every hour between 6am to 22pm GMT+2
 console.log('schedule', cronParams)
 reminder.remindWord(); 
 var j = schedule.scheduleJob(cronParams, function(){ 
-  reminder.remindWord()
+    reminder.remindWord()
 });
 
 module.exports = app; // for testing
 
-//---
+
+//--------------------------------------------------------------------
 // var rule = new schedule.RecurrenceRule();
 //#A/a "0 */15 4-20 * * *" every 15 minutes

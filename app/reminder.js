@@ -4,22 +4,20 @@ const Word = require('./models/word-model')
 
 module.exports.remindWord = async () => {
     console.log('remindWord.reminder', new Date())
-
-    let devices = await getDevices()
-    console.log('remindWord.devices', devices)
-
-    if (devices === null || devices.length === 0) {
-        console.log('No devices found')
-        return
-    }
-    let word = await this.randomWord()
-    console.log('remindWord.word', word)
-    if (word === null) {
-        console.log('No words found')
-        return
-    }
-
     try {
+        let devices = await getDevices()
+        console.log('remindWord.devices', devices)
+
+        if (devices === null || devices.length === 0) {
+            throw new Error('No devices found')
+        }
+
+        let word = await this.randomWord()
+        console.log('remindWord.word', word)
+        if (word === null) {
+            throw new Error('No words found')
+        }
+
         let notif = {
             title: word.phrase+' ['+word.counter+']',
             body:  (word.sentence ? word.sentence+'\n\n' : '')+word.translation,
@@ -45,16 +43,12 @@ module.exports.randomWord = async () => {
             url: url, 
             methog: 'get'
         })
-        if (words.data.length === 0) return null 
-        //console.log('words.data.length',words.data.length)
+        console.log('words.data.length',words.data.length)
+        if (words.data.status === 'fail' || words.data.length === 0) throw new Error('Can not findtop10toremind')
         let rnd = Math.floor(Math.random() * words.data.length)
-        await Word.findByIdAndUpdate(words.data[rnd]._id, { counter: +words.data[rnd].counter+1 }, function (err) {
-            if (err) console.error(err)
-            //console.log('reminder.randomWord.findByIdAndUpdate success')
-        }) 
+        await Word.findByIdAndUpdate(words.data[rnd]._id, { counter: +words.data[rnd].counter+1 })
         return words.data[rnd];
     } catch (error) {
-        console.log('###Error: randomWord');
         console.error(error);
         return null
     }    
@@ -77,7 +71,7 @@ getDevices = async (phrase) => {
     }
 }
 
-//color
+//message color
 getTagColor = (tag) => { 
     console.log(tag);
     switch (tag) { 

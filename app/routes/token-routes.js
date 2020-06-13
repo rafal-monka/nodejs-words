@@ -12,5 +12,5 @@ module.exports = app => {
     // Create new
     router.post("/create/", tokens.create);
 
-     app.use('/api/tokens', router);
+    app.use('/api/tokens', router);
   };

@@ -20,7 +20,7 @@ exports.translate = async (req, res) => {
 }
 
 //create new word
-exports.create = async (req, res, next) => {
+exports.create = (req, res, next) => {
     console.log("create", req.body.phrase)
     // Validate request
     if (!req.body.phrase) {
@@ -40,54 +40,52 @@ exports.create = async (req, res, next) => {
             counter: 0
     }
     let word = new Word(obj)
-    word.save(function (err) {
-        if (err) {
-            console.error(err)
-            next(err)
-        } else {
-            res.json(word)
-        }
-    }) 
+    word.save()
+        .then(function (result){
+            res.status(200).json(result)
+        })
+        .catch (next)          
 }
 
 //get all records
-exports.findAll = async (req, res) => {
+exports.findAll = (req, res, next) => {
     console.log('word-controller.findAll...')
-    Word.find({}, function (err, docs) {
-        if (err) {
-            console.error(err)
-            next(err)
-        } else {
-            res.json(docs)        
-        }
-    }) 
+    Word.find({})
+        .then(function (result) {
+            res.json(result)
+        })
+        .catch (next)  
 }
 
 //get top 10 records (to random) to remind
 exports.findTop10ToRemind = async (req, res, next) => {
-    let words = []
-    let docs = await Word.find({ counter: { $gte: 0} })
-    docs.forEach(doc => {
-        let word = {
-            _id : doc._id, 
-            counter: doc.counter, 
-            tags: doc.tags, 
-            phrase: doc.phrase, 
-            sentence: doc.sentence, 
-            translation: doc.translation,
-            sign: Math.sign(doc.counter),
-            severity: Math.pow(2, 'ABCD'.length-'ABCD'.indexOf(doc.tags)) * (doc.counter+1)
-        }
-        words.push(word)
-    })
-    words = words.sort((a, b) => {
-        if (a.counter === b.counter) { 
-            return b.severity - a.severity //DESC
-        } else {
-            return a.counter > b.counter ? 1 : -1; //ASC
-        }            
-    })
-    res.json(words.slice(0, 10))       
+    try {        
+        let words = []
+        let docs = await Word.find({ counter: { $gte: 0} })
+        docs.forEach(doc => {
+            let word = {
+                _id : doc._id, 
+                counter: doc.counter, 
+                tags: doc.tags, 
+                phrase: doc.phrase, 
+                sentence: doc.sentence, 
+                translation: doc.translation,
+                sign: Math.sign(doc.counter),
+                severity: Math.pow(2, 'ABCD'.length-'ABCD'.indexOf(doc.tags)) * (doc.counter+1)
+            }
+            words.push(word)
+        })
+        words = words.sort((a, b) => {
+            if (a.counter === b.counter) { 
+                return b.severity - a.severity //DESC
+            } else {
+                return a.counter > b.counter ? 1 : -1; //ASC
+            }            
+        })
+        res.json(words.slice(0, 10))
+    } catch(err) {
+        next(err)
+    }     
 }
 
 exports.getAll = async (req, res) => {
@@ -111,45 +109,35 @@ exports.getAll = async (req, res) => {
 }
 
 //Find a single Word
-exports.findOne = (req, res) => {
+exports.findOne = (req, res, next) => {
     const id = req.params.id
     console.log('word-controller.findOne', id);
-    Word.findById(id, function (err, doc) {
-        if (err) {
-            console.error(err)
-            next(err)
-        } else {
-            console.log('doc', doc)
-            res.send(doc)
-        }
-    })
+    Word.findById(id)
+        .then(function (result) {
+            res.json(result)
+        })
+        .catch (next)    
 }
 
 //Update a Word
-exports.update = (req, res) => {
+exports.update = (req, res, next) => {
     const id = req.params.id;
-    Word.findByIdAndUpdate(id, req.body, {new: true}, function (err, doc) {
-        if (err) {
-            console.error(err)
-            next(err)
-        } else {
-            res.status(200).send(doc) 
-        }
-    })    
+    Word.findByIdAndUpdate(id, req.body, {new: true})
+        .then(function (result) {
+            res.json(result)
+        })
+        .catch (next)  
 };
 
 //Delete a Word 
-exports.delete = (req, res) => {
+exports.delete = (req, res, next) => {
     const id = req.params.id;
     console.log('delete: id', id)
-    Word.deleteOne({ _id: id }, function (err) {
-        if (err) {
-            console.error(err)
-            next(err)
-        } else {
-            res.status(200).send()
-        } 
-    })  
+    Word.deleteOne({ _id: id })
+        .then(function (result) {
+            res.json(result)
+        })
+        .catch (next) 
 }
 
 

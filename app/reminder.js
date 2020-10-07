@@ -19,7 +19,7 @@ module.exports.remindWord = async () => {
         }
 
         let notif = {
-            title: word.phrase+' ['+word.counter+']',
+            title: process.env.ENVNAME+'/'+word.phrase+' ['+word.counter+']',
             body:  (word.sentence ? word.sentence+'\n\n' : '')+word.translation,
             color: getTagColor(word.tags),
             _id: ''+word._id

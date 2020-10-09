@@ -2,7 +2,7 @@ var axios = require('axios');
 require('dotenv').config();
 
 const MW_URL = "https://dictionaryapi.com/api/v3/references/collegiate/json";
-const MW_API_KEY = "333b297d-ee78-4c3e-9882-0f3fad0ca076";
+const MW_API_KEY = process.env.MW_API_KEY;
 
 
 const getTranslation = (phrase) => {

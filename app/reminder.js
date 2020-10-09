@@ -6,14 +6,14 @@ module.exports.remindWord = async () => {
     console.log('remindWord.reminder', new Date())
     try {
         let devices = await getDevices()
-        console.log('remindWord.devices', devices)
+        //console.log('remindWord.devices', devices)
 
         if (devices === null || devices.length === 0) {
             throw new Error('No devices found')
         }
 
         let word = await this.randomWord()
-        console.log('remindWord.word', word)
+        //console.log('remindWord.word', word)
         if (word === null) {
             throw new Error('No words found')
         }
@@ -43,7 +43,6 @@ module.exports.randomWord = async () => {
             url: url, 
             methog: 'get'
         })
-        console.log('words.data.length',words.data.length)
         if (words.data.status === 'fail' || words.data.length === 0) throw new Error('Can not findtop10toremind')
         let rnd = Math.floor(Math.random() * words.data.length)
         await Word.findByIdAndUpdate(words.data[rnd]._id, { counter: +words.data[rnd].counter+1 })
@@ -73,7 +72,7 @@ getDevices = async (phrase) => {
 
 //message color
 getTagColor = (tag) => { 
-    console.log(tag);
+    //console.log(tag);
     switch (tag) { 
         case 'A': return '#ff0000'; 
         case 'B': return '#fc9003'; 

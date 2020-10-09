@@ -54,10 +54,12 @@ app.listen(PORT, () => {
 //init database
 initDatabase()
 
+reminder.remindWord(); 
+return
+
 //schedule word reminder
 cronParams = "0 0 4-20 * * *"; //every hour between 6am to 22pm GMT+2
 console.log('schedule', cronParams)
-reminder.remindWord(); 
 var j = schedule.scheduleJob(cronParams, function(){ 
     reminder.remindWord()
 });

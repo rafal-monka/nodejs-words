@@ -99,8 +99,8 @@ exports.parse = (html) => {
             }
             translations.push(obj);
         }
-        console.log(JSON.stringify(translations));
-        console.log(translations);
+        //console.log(JSON.stringify(translations));
+        //console.log(translations);
         return translations;
     } catch (e) {
         console.log(e.toString());

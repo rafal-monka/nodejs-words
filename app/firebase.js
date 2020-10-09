@@ -7,7 +7,7 @@ admin.initializeApp({
 })
 
 exports.sendMessage = (token, notif) => {
-console.log('sendMessage - token', token);
+//console.log('sendMessage - token', token);
     const message = {
         data: {
             title: notif.title,
@@ -18,7 +18,7 @@ console.log('sendMessage - token', token);
         token: token
     }
     
-    console.log('messaging().send(message)...', message);
+    //console.log('messaging().send(message)...', message);
 
     admin.messaging().send(message)
         .then(res => {

@@ -2,7 +2,7 @@ var axios = require('axios');
 require('dotenv').config();
 
 const OXFORD_URL = "https://od-api.oxforddictionaries.com/api/v2"
-const OXFORD_API_KEY = "1deefa9368667e815345f5c008c84bfa"
+const OXFORD_API_KEY = process.env.OXFORD_API_KEY
 const OXFORD_APP_ID = "05ab0e54"
 
 const getTranslation = (phrase) => {

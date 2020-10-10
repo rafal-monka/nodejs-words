@@ -54,7 +54,7 @@ app.listen(PORT, () => {
 //init database
 initDatabase()
 
-reminder.remindWord(); 
+// reminder.remindWord(); 
 // return
 
 //schedule word reminder

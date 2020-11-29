@@ -92,16 +92,21 @@ exports.getAll = async (req, res) => {
     console.log('word-controller.getAll')
     const {
       query: {
-        currentPage, pageSize
+        currentPage, pageSize, search
       }
     } = req;
     console.log(req.query);
-    const count = await Word.estimatedDocumentCount()
+    console.log(search)
+    //var searchText = "";
+    var regex = new RegExp(["", search, ""].join(""), "i");
+
+    const count = await Word.countDocuments({phrase: regex}) //estimatedDocumentCount()
     // console.log('word-controller.count', count)
     // console.log('word-controller. (currentPage, pageSize)', currentPage, pageSize)
     const { limit, offset } = pagination.calculateLimitAndOffset(currentPage, pageSize)
     // console.log('word-controller. (limit, offset)', limit, offset)
-    const rows = await Word.find({})
+
+    const rows = await Word.find({phrase: regex})
         .limit(limit)
         .skip(offset)
     const meta = pagination.paginate(currentPage, count, rows, pageSize)      
